@@ -1,5 +1,7 @@
 #Cython : cdef str source
 source = '<!DOCTYPE html>'
+PyScriptStyle='<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />'
+PyScriptCore='<script defer src="https://pyscript.net/latest/pyscript.js"></script>'
 
 def tag(name : str, sourse : str, close = True, **attrebute):
     '''
@@ -20,7 +22,7 @@ def tag(name : str, sourse : str, close = True, **attrebute):
     returns = f'<{name}{option}>{end}' #return tags
     return returns
 
-def head(meta_data : tuple, encoding = 'UTF-8', id = None, style = None, title = None, script = None, link = None, **attrebute):
+def head(meta_data : tuple, encoding = 'UTF-8', id = None, style = None, title = None, script = None, link = None, PyScript = False, PyScriptStyle = False, **attrebute):
     '''
     make head part of html DOCS
     '''
@@ -31,6 +33,8 @@ def head(meta_data : tuple, encoding = 'UTF-8', id = None, style = None, title =
     assert script == None or isinstance(script, str), "TypeError : Web page encoding must be None or string data"
     assert link == None or isinstance(link, str), "TypeError : Web page encoding must be None or string data"
     assert isinstance(meta_data[0], str) or isinstance(meta_data[1], str), "TypeError : meta data start 2 end"
+    assert isinstance(PyScript, bool), "TypeError : PyScript Bool must be bool"
+    assert isinstance(PyScriptStyle, bool), "TypeError : PyScriptStyle Bool must be bool"
     #Cython : cdef dict option
     #Cython : cdef str sourse
     sourse = meta_data[0]
@@ -39,8 +43,10 @@ def head(meta_data : tuple, encoding = 'UTF-8', id = None, style = None, title =
         option.update({'id':id}) #html tag id define
     if encoding != None:
         sourse += tag('meta', '', close = False, charset = encoding) #setting web encoding
-    if link != None:
+    if link != None and PyScriptStyle:
+    elif link != None:
         sourse += tag('link', link) #linking
+    elif PyScriptStyle
     if title != None:
         sourse += tag('title', title) #title
     if style != None:
@@ -51,34 +57,17 @@ def head(meta_data : tuple, encoding = 'UTF-8', id = None, style = None, title =
     returns = tag('head',sourse,**option)
     return returns
 
-def body(meta_data : tuple, encoding = 'UTF-8', id = None, style = None, title = None, script = None, link = None, **attrebute):
+def body(id = None, **attrebute):
     '''
-    make head part of html DOCS
+    make body part of html DOCS
     '''
-    assert encoding == None or isinstance(encoding, str), "TypeError : Web page encoding must be None or string data"
     assert id == None or isinstance(id, str), "TypeError : Web page encoding must be None or string data"
-    assert style == None or isinstance(style, str), "TypeError : Web page encoding must be None or string data"
-    assert title == None or isinstance(title, str), "TypeError : Web page encoding must be None or string data"
-    assert script == None or isinstance(script, str), "TypeError : Web page encoding must be None or string data"
-    assert link == None or isinstance(link, str), "TypeError : Web page encoding must be None or string data"
-    assert isinstance(meta_data[0], str) or isinstance(meta_data[1], str), "TypeError : meta data start 2 end"
     #Cython : cdef dict option
     #Cython : cdef str sourse
-    sourse = meta_data[0]
+    sourse = ''
     option = attrebute #make local var 2 copying attrebute
     if id != None:
         option.update({'id':id}) #html tag id define
-    if encoding != None:
-        sourse += tag('meta', '', close = False, charset = encoding) #setting web encoding
-    if link != None:
-        sourse += tag('link', link) #linking
-    if title != None:
-        sourse += tag('title', title) #title
-    if style != None:
-        sourse += tag('style', style) #make CSS 4 style
-    if script != None:
-        sourse += tag('script', script) #make JS 2 script
-    sourse += meta_data[1]
     returns = tag('head',sourse,**option)
     return returns
 
