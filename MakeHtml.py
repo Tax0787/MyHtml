@@ -174,21 +174,21 @@ def title_bar(title : str, title_bar_option : TitleBarOption, main_body_option :
     title_bar_source = tag('h1', title, **options['titles']) + tag('nav', menu, **options['menu']['bar'])
     return title_bar_option(title_bar_source) + main_body_option(main_body_sourse)
 
-def head_func_title_bar(val : str, title_bar, mode:str):
+def head_func_title_bar(title_bar, mode:str):
     assert title_bar == None or isinstance(title_bar[0], str), "TypeError : Web page title bar option must be pair that (string, data) or None because of form : if linking css to make title_bar acitve, input 'link', or use style tag, 'style'"
     if title_bar == None:
         pass
     elif title_bar[0] == mode == 'link':
-        val += tag('link','',close = False, self_closing = True, rel = "stylesheet", href = title_bar[1]+".css")
+        print('temp')
+        return tag('link','',close = False, self_closing = True, rel = "stylesheet", href = title_bar[1]+".css")
     elif title_bar[0] == mode == 'style':
         print('temp')
         if title_bar[1] != None:
             a = title_bar[1]
         else:
             a = 'header{position:fixed;top:0;left:0;right:0;}main{padding:1rem;height:100%;}body{padding-top:75px;}body,html{height:200%;}*{box-sizing:border-box;}'
-        print(val,a,sep='\n')
-        val += '\n' + a
-        print(val)
+        print(a,sep='\n')
+        return '\n' + a
     else:
         raise TypeError("mode must be link or style, It's css, It raise to Active!!!!!!!")
 
@@ -235,11 +235,15 @@ def head(meta_data : tuple, title_bar = None, encoding = 'UTF-8', id = None, sty
 
     #stap1 : style-link
     if PyScriptStyle:
-        head_func_title_bar(sourse, title_bar, 'link')
+        sourse += head_func_title_bar(title_bar, 'link')
         if link != None:
             sourse += tag('link','',close = False, self_closing = True, rel = link['rel'], href = link['URI'])
         else:
             sourse += tag('link','',close = False, self_closing = True, rel = "stylesheet", href = "https://pyscript.net/latest/pyscript.css")
+    else:
+        sourse += head_func_title_bar(title_bar, 'link')
+        if link != None:
+            sourse += tag('link','',close = False, self_closing = True, rel = link['rel'], href = link['URI'])
 
     #stap2 : main
 
@@ -253,12 +257,12 @@ def head(meta_data : tuple, title_bar = None, encoding = 'UTF-8', id = None, sty
 
     if style != None:
         style2 = style
-        head_func_title_bar(style2, title_bar, 'style')
+        style2 += head_func_title_bar(title_bar, 'style')
         sourse += tag('style', style2) #make CSS 4 style
     elif title_bar != None:
         if title_bar[0] == 'style':
             style2 = ''
-            head_func_title_bar(style2, title_bar, 'style')
+            style2 += head_func_title_bar(title_bar, 'style')
             sourse += tag('style', style2) #make CSS 4 style
     else:
         pass
