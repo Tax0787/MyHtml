@@ -336,7 +336,7 @@ def test():
             }
         }
     )
-    data = HTML(head(('', ''), title_bar = ('link','HTMLSource/상단바2.css'), id = 'head_tag', title = '시험적 웹사이트', PyScript = True), body(value, id = 'body_tag'), lang = 'ko')
+    data = HTML(head(('', ''), title_bar = ('link','./HTMLSource/상단바2'), id = 'head_tag', title = '시험적 웹사이트', PyScript = True), body(value, id = 'body_tag'), lang = 'ko')
     print(data)
     with open('index.html', 'w', encoding = 'utf-8') as f:
         f.write(data)
