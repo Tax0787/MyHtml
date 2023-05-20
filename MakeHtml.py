@@ -178,10 +178,10 @@ def head_func_title_bar(title_bar, mode:str):
     assert title_bar == None or isinstance(title_bar[0], str), "TypeError : Web page title bar option must be pair that (string, data) or None because of form : if linking css to make title_bar acitve, input 'link', or use style tag, 'style'"
     if title_bar == None:
         pass
-    elif title_bar[0] == mode == 'link':
+    elif title_bar[0] == mode and mode == 'link' and title_bar[0] == 'link':
         print('temp')
         return tag('link','',close = False, self_closing = True, rel = "stylesheet", href = title_bar[1]+".css")
-    elif title_bar[0] == mode == 'style':
+    elif title_bar[0] == mode and mode == 'style' and title_bar[0] == 'style':
         print('temp')
         if title_bar[1] != None:
             a = title_bar[1]
@@ -189,6 +189,8 @@ def head_func_title_bar(title_bar, mode:str):
             a = 'header{position:fixed;top:0;left:0;right:0;}main{padding:1rem;height:100%;}body{padding-top:75px;}body,html{height:200%;}*{box-sizing:border-box;}'
         print(a,sep='\n')
         return '\n' + a
+    elif title_bar[0] != mode:
+        raise SystemError("haha;;; System is broken")
     else:
         raise TypeError("mode must be link or style, It's css, It raise to Active!!!!!!!")
 
