@@ -181,11 +181,14 @@ def head_func_title_bar(val : str, title_bar, mode:str):
     elif title_bar[0] == mode == 'link':
         val += tag('link','',close = False, self_closing = True, rel = "stylesheet", href = title_bar[1]+".css")
     elif title_bar[0] == mode == 'style':
+        print('temp')
         if title_bar[1] != None:
             a = title_bar[1]
         else:
             a = 'header{position:fixed;top:0;left:0;right:0;}main{padding:1rem;height:100%;}body{padding-top:75px;}body,html{height:200%;}*{box-sizing:border-box;}'
+        print(val,a,sep='\n')
         val += '\n' + a
+        print(val)
     else:
         raise TypeError("mode must be link or style, It's css, It raise to Active!!!!!!!")
 
