@@ -190,7 +190,7 @@ def head_func_title_bar(title_bar, mode:str):
         print(a,sep='\n')
         return '\n' + a
     elif title_bar[0] != mode:
-        raise SystemError("haha;;; System is broken")
+        pass
     else:
         raise TypeError("mode must be link or style, It's css, It raise to Active!!!!!!!")
 
