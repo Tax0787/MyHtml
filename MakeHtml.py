@@ -174,7 +174,7 @@ def title_bar(title : str, title_bar_option : TitleBarOption, main_body_option :
     title_bar_source = tag('h1', title, **options['titles']) + tag('nav', menu, **options['menu']['bar'])
     return title_bar_option(title_bar_source) + main_body_option(main_body_sourse)
 
-def head_func_title_bar(title_bar, mode:str):
+def head_func_title_bar(title_bar, mode:str, size = 300):
     assert title_bar == None or isinstance(title_bar[0], str), "TypeError : Web page title bar option must be pair that (string, data) or None because of form : if linking css to make title_bar acitve, input 'link', or use style tag, 'style'"
     if title_bar == None:
         pass
@@ -185,14 +185,14 @@ def head_func_title_bar(title_bar, mode:str):
         return ret
     elif title_bar[0] == mode and mode == 'style' and title_bar[0] == 'style':
         print('temp')
-        if title_bar[1] != None:
+        if title_bar[1] != None and isinstance(title_bar, str):
             a = title_bar[1]
         else:
-            a = 'header{position:fixed;top:0;left:0;right:0;}main{padding:1rem;height:100%;}body{padding-top:75px;}body,html{height:200%;}*{box-sizing:border-box;}'
+            a = f'header{{position:fixed;top:0;left:0;right:0;}}main{{padding:1rem;height:100%;}}body{{padding-top:75px;}}body,html{{height:{size}%;}}*{{box-sizing:border-box;}}'
         print(a,sep='\n')
         return '\n' + a
     elif title_bar[0] != mode:
-        pass
+        return ''
     else:
         raise TypeError("mode must be link or style, It's css, It raise to Active!!!!!!!")
 
@@ -261,12 +261,19 @@ def head(meta_data : tuple, title_bar = None, encoding = 'UTF-8', id = None, sty
 
     if style != None:
         style2 = style
-        style2 += head_func_title_bar(title_bar, 'style')
+        if title_bar != None:
+            if isinstance(title_bar[1],int):
+                style2 += head_func_title_bar(title_bar, 'style',size = title_bar[1])
+            else:
+                style2 += head_func_title_bar(title_bar, 'style')
         sourse += tag('style', style2) #make CSS 4 style
     elif title_bar != None:
         if title_bar[0] == 'style':
             style2 = ''
-            style2 += head_func_title_bar(title_bar, 'style')
+            if isinstance(title_bar[1],int):
+                style2 += head_func_title_bar(title_bar, 'style',size = title_bar[1])
+            else:
+                style2 += head_func_title_bar(title_bar, 'style')
             sourse += tag('style', style2) #make CSS 4 style
     else:
         pass
@@ -341,7 +348,7 @@ def test():
         }
     )
     #data = HTML(head(('', ''), title_bar = ('link','./HTMLSource/상단바2'), id = 'head_tag', title = '시험적 웹사이트', PyScript = True), body(value, id = 'body_tag'), lang = 'ko')
-    data = HTML(head(('', ''), title_bar = ('style',None), id = 'head_tag', title = '시험적 웹사이트', PyScript = True), body(value, id = 'body_tag'), lang = 'ko')
+    data = HTML(head(('', ''), title_bar = ('style',100), id = 'head_tag', title = '시험적 웹사이트', PyScript = True), body(value, id = 'body_tag'), lang = 'ko')
     print(data)
     with open('index.html', 'w', encoding = 'utf-8') as f:
         f.write(data)
