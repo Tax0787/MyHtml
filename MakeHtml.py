@@ -180,7 +180,9 @@ def head_func_title_bar(title_bar, mode:str):
         pass
     elif title_bar[0] == mode and mode == 'link' and title_bar[0] == 'link':
         print('temp')
-        return tag('link','',close = False, self_closing = True, rel = "stylesheet", href = title_bar[1]+".css")
+        ret = tag('link','',close = False, self_closing = True, rel = "stylesheet", href = title_bar[1]+".css")
+        print(ret)
+        return ret
     elif title_bar[0] == mode and mode == 'style' and title_bar[0] == 'style':
         print('temp')
         if title_bar[1] != None:
