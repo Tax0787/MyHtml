@@ -214,7 +214,12 @@ def head(meta_data : tuple, title_bar = None, encoding = 'UTF-8', id = None, sty
     10 | assert isinstance(PyScriptStyle, bool), "TypeError : PyScriptStyle Bool must be bool"
 
     '''
-    assert title_bar == None or isinstance(title_bar[0], str), "TypeError : Web page title bar option must be pair that (string, data) or None because of form : if linking css to make title_bar acitve, input 'link', or use style tag, 'style'"
+    if title_bar != None:
+        alpha="Web page title bar option must be pair that (string, data) or None because of form : if linking css to make title_bar acitve, input 'link', or use style tag, 'style'"
+        try:
+            assert isinstance(title_bar[0], str), "TypeError : "+alpha
+        except:
+            raise TypeError(alpha)
     assert encoding == None or isinstance(encoding, str), "TypeError : Web page encoding must be None or string data"
     assert id == None or isinstance(id, str), "TypeError : Web page encoding must be None or string data"
     assert style == None or isinstance(style, str), "TypeError : Web page style must be None or string data"
